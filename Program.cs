@@ -1,4 +1,5 @@
 ﻿using Airport_Ticket_Booking_System;
+using Airport_Ticket_Booking_System.Enums;
 
 class Program
 {
@@ -44,7 +45,7 @@ class Program
             bookedSeats: 100
         );
 
-        System.Console.WriteLine(flight1);
-        System.Console.WriteLine(flight2);
+        System.Console.WriteLine(flight1.ToDetailedString());
+        System.Console.WriteLine(flight2.ToDetailedString());
     }
 }
