@@ -17,15 +17,15 @@ public class Flight
 
     public Flight(string flightNumber, string departureCountry, string departureAirport, DateTime departureDateTime, string destinationCountry, string destinationAirport, TimeSpan flightDuration, Dictionary<FlightClass, decimal> pricePerClass, int capacity, int bookedSeats)
     {
-        FlightNumber = flightNumber;
-        DepartureCountry = departureCountry;
-        DepartureAirport = departureAirport;
-        DepartureDateTime = departureDateTime;
-        DestinationCountry = destinationCountry;
-        DestinationAirport = destinationAirport;
-        FlightDuration = flightDuration;
-        Capacity = capacity;
-        BookedSeats = bookedSeats;
+        FlightNumber = FlightValidator.ValidateFlightNumber(flightNumber);
+        DepartureCountry = FlightValidator.ValidateCountry(departureCountry);
+        DepartureAirport = FlightValidator.ValidateAirport(departureAirport);
+        DepartureDateTime = FlightValidator.ValidateDepartureDateTime(departureDateTime);
+        DestinationCountry = FlightValidator.ValidateCountry(destinationCountry);
+        DestinationAirport = FlightValidator.ValidateAirport(destinationAirport);
+        FlightDuration = FlightValidator.ValidateFlightDuration(flightDuration);
+        Capacity = FlightValidator.ValidateCapacity(capacity);
+        BookedSeats = FlightValidator.ValidateBookedSeats(bookedSeats, capacity);
         PricePerClass = FlightValidator.ValidatePricePerClass(pricePerClass);
     }
 }

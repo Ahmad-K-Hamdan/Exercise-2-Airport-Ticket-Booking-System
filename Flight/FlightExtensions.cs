@@ -9,13 +9,10 @@ public static class FlightExtensions
     {
         return flight.DepartureDateTime + flight.FlightDuration;
     }
+
     public static int AvailableSeats(this Flight flight)
     {
         return flight.Capacity - flight.BookedSeats;
-    }
-    public static void ImportFlights()
-    {
-        // TODO
     }
 
     public static string ToDetailedString(this Flight flight)
@@ -29,5 +26,13 @@ public static class FlightExtensions
                 $"Prices: Economy ${flight.PricePerClass[FlightClass.Economy]}, " +
                 $"Business ${flight.PricePerClass[FlightClass.Business]}, " +
                 $"First ${flight.PricePerClass[FlightClass.FirstClass]}";
+    }
+
+    public static void PrintAllFlights(this List<Flight> flights)
+    {
+        foreach (var flight in flights)
+        {
+            Console.WriteLine(flight.ToDetailedString());
+        }
     }
 }
