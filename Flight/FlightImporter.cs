@@ -19,7 +19,6 @@ public static class FlightImporter
         try
         {
             var lines = File.ReadAllLines(filePath).Skip(1).ToList();
-            Console.WriteLine("Flights information read successfully!");
             return lines;
         }
         catch (Exception ex)
@@ -60,7 +59,26 @@ public static class FlightImporter
                     { FlightClass.Business, decimal.Parse(econ[1]) },
                     { FlightClass.FirstClass, decimal.Parse(econ[2]) }
                 };
-                var Flight = new Flight(line[0],
+
+                var errors = FlightValidator.GetValidationErrors(
+                        flightNumber: line[0],
+                        departureCountry: line[1],
+                        departureAirport: line[2],
+                        departureDateTime: DateTime.Parse(line[3]),
+                        destinationCountry: line[4],
+                        destinationAirport: line[5],
+                        flightDuration: TimeSpan.Parse(line[6]),
+                        pricePerClass: prices,
+                        capacity: int.Parse(line[8]),
+                        bookedSeats: int.Parse(line[9]));
+
+                if (errors.Count > 0)
+                {
+                    Console.WriteLine($"Validation errors for flight {line[0]}: {string.Join("; ", errors)}");
+                    continue;
+                }
+
+                var flight = new Flight(line[0],
                                 line[1], line[2],
                                 DateTime.Parse(line[3]),
                                 line[4],
@@ -69,7 +87,7 @@ public static class FlightImporter
                                 prices,
                                 int.Parse(line[8]),
                                 int.Parse(line[9]));
-                ListOfFlights.Add(Flight);
+                ListOfFlights.Add(flight);
             }
             catch (Exception ex)
             {
