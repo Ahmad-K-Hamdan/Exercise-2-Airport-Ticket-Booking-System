@@ -15,6 +15,11 @@ public static class FlightExtensions
         return flight.Capacity - flight.BookedSeats;
     }
 
+    public static Flight? FindFlightByNumber(this List<Flight> flights, string flightNumber)
+    {
+        return flights.FirstOrDefault(flight => flight.FlightNumber == flightNumber);
+    }
+
     public static string ToDetailedString(this Flight flight)
     {
         return $"Flight {flight.FlightNumber} | " +

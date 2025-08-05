@@ -4,11 +4,11 @@ namespace Airport_Ticket_Booking_System.Booking;
 
 public class Booking
 {
-    public Guid BookingId { get; }
-    public Flight Flight { get; }
-    public FlightClass Class { get; }
-    public DateTime BookingDate { get; }
-    public int NumberOfSeats { get; }
+    public Guid BookingId { get; set; }
+    public Flight Flight { get; set; }
+    public FlightClass Class { get; set; }
+    public DateTime BookingDate { get; set; }
+    public int NumberOfSeats { get; set; }
 
     public Booking(Flight flight, FlightClass flightClass, int numberOfSeats)
     {
