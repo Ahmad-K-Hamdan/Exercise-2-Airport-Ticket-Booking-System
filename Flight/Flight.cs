@@ -13,9 +13,20 @@ public class Flight
     public TimeSpan FlightDuration { get; }
     public Dictionary<FlightClass, decimal> PricePerClass { get; }
     public int Capacity { get; }
-    public int BookedSeats { get; }
+    public int BookedSeats { get; set; }
 
-    public Flight(string flightNumber, string departureCountry, string departureAirport, DateTime departureDateTime, string destinationCountry, string destinationAirport, TimeSpan flightDuration, Dictionary<FlightClass, decimal> pricePerClass, int capacity, int bookedSeats)
+    public Flight(
+        string flightNumber,
+        string departureCountry,
+        string departureAirport,
+        DateTime departureDateTime,
+        string destinationCountry,
+        string destinationAirport,
+        TimeSpan flightDuration,
+        Dictionary<FlightClass, decimal> pricePerClass,
+        int capacity,
+        int bookedSeats
+    )
     {
         FlightNumber = FlightValidator.ValidateFlightNumber(flightNumber);
         DepartureCountry = FlightValidator.ValidateCountry(departureCountry);

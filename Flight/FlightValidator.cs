@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Airport_Ticket_Booking_System.Enums;
 
 namespace Airport_Ticket_Booking_System;
@@ -20,6 +21,8 @@ public class FlightValidator
             throw new ArgumentException("Country cannot be empty.");
         if (country.Length < 2)
             throw new ArgumentException("Country name is too short.");
+        if (!Regex.IsMatch(country, @"^[a-zA-Z]+$"))
+            throw new ArgumentException("Country name must contain only letters.");
 
         return country;
     }
@@ -68,7 +71,9 @@ public class FlightValidator
         return bookedSeats;
     }
 
-    public static Dictionary<FlightClass, decimal> ValidatePricePerClass(Dictionary<FlightClass, decimal> pricePerClass)
+    public static Dictionary<FlightClass, decimal> ValidatePricePerClass(
+        Dictionary<FlightClass, decimal> pricePerClass
+    )
     {
         foreach (FlightClass flightClass in Enum.GetValues<FlightClass>())
         {
@@ -86,39 +91,110 @@ public class FlightValidator
         return pricePerClass;
     }
 
-    public static List<string> GetValidationErrors(string flightNumber, string departureCountry, string departureAirport, DateTime departureDateTime, string destinationCountry, string destinationAirport, TimeSpan flightDuration, Dictionary<FlightClass, decimal> pricePerClass, int capacity, int bookedSeats)
+    public static List<string> GetValidationErrors(
+        string flightNumber,
+        string departureCountry,
+        string departureAirport,
+        DateTime departureDateTime,
+        string destinationCountry,
+        string destinationAirport,
+        TimeSpan flightDuration,
+        Dictionary<FlightClass, decimal> pricePerClass,
+        int capacity,
+        int bookedSeats
+    )
     {
         var errors = new List<string>();
 
-        try { ValidateFlightNumber(flightNumber); }
-        catch (Exception ex) { errors.Add($"FlightNumber: {ex.Message}"); }
+        try
+        {
+            ValidateFlightNumber(flightNumber);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"FlightNumber: {ex.Message}");
+        }
 
-        try { ValidateCountry(departureCountry); }
-        catch (Exception ex) { errors.Add($"DepartureCountry: {ex.Message}"); }
+        try
+        {
+            ValidateCountry(departureCountry);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"DepartureCountry: {ex.Message}");
+        }
 
-        try { ValidateAirport(departureAirport); }
-        catch (Exception ex) { errors.Add($"DepartureAirport: {ex.Message}"); }
+        try
+        {
+            ValidateAirport(departureAirport);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"DepartureAirport: {ex.Message}");
+        }
 
-        try { ValidateDepartureDateTime(departureDateTime); }
-        catch (Exception ex) { errors.Add($"DepartureDateTime: {ex.Message}"); }
+        try
+        {
+            ValidateDepartureDateTime(departureDateTime);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"DepartureDateTime: {ex.Message}");
+        }
 
-        try { ValidateCountry(destinationCountry); }
-        catch (Exception ex) { errors.Add($"DestinationCountry: {ex.Message}"); }
+        try
+        {
+            ValidateCountry(destinationCountry);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"DestinationCountry: {ex.Message}");
+        }
 
-        try { ValidateAirport(destinationAirport); }
-        catch (Exception ex) { errors.Add($"DestinationAirport: {ex.Message}"); }
+        try
+        {
+            ValidateAirport(destinationAirport);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"DestinationAirport: {ex.Message}");
+        }
 
-        try { ValidateFlightDuration(flightDuration); }
-        catch (Exception ex) { errors.Add($"FlightDuration: {ex.Message}"); }
+        try
+        {
+            ValidateFlightDuration(flightDuration);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"FlightDuration: {ex.Message}");
+        }
 
-        try { ValidateCapacity(capacity); }
-        catch (Exception ex) { errors.Add($"Capacity: {ex.Message}"); }
+        try
+        {
+            ValidateCapacity(capacity);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"Capacity: {ex.Message}");
+        }
 
-        try { ValidateBookedSeats(bookedSeats, capacity); }
-        catch (Exception ex) { errors.Add($"BookedSeats: {ex.Message}"); }
+        try
+        {
+            ValidateBookedSeats(bookedSeats, capacity);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"BookedSeats: {ex.Message}");
+        }
 
-        try { ValidatePricePerClass(pricePerClass); }
-        catch (Exception ex) { errors.Add($"PricePerClass: {ex.Message}"); }
+        try
+        {
+            ValidatePricePerClass(pricePerClass);
+        }
+        catch (Exception ex)
+        {
+            errors.Add($"PricePerClass: {ex.Message}");
+        }
 
         return errors;
     }
