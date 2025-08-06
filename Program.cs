@@ -1,5 +1,5 @@
-﻿using Airport_Ticket_Booking_System;
-using Airport_Ticket_Booking_System.Booking;
+﻿using Airport_Ticket_Booking_System.Bookings;
+using Airport_Ticket_Booking_System.Flights;
 
 class Program
 {
@@ -56,9 +56,14 @@ class Program
         switch (choice)
         {
             case "1":
+                var importedFlights = FlightImporter.ImportFlights();
+                flights.Clear();
+                flights.AddRange(importedFlights);
+                Console.WriteLine($"{importedFlights.Count} flights imported successfully.");
                 break;
 
             case "2":
+                bookings.BookingsFiltering();
                 break;
 
             case "3":

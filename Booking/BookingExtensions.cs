@@ -1,7 +1,7 @@
-using System.Data.Common;
 using Airport_Ticket_Booking_System.Enums;
+using Airport_Ticket_Booking_System.Flights;
 
-namespace Airport_Ticket_Booking_System.Booking;
+namespace Airport_Ticket_Booking_System.Bookings;
 
 public static class BookingExtensions
 {
@@ -12,6 +12,38 @@ public static class BookingExtensions
             return pricePerSeat * booking.NumberOfSeats;
         }
         throw new ArgumentException($"Price not found for class {booking.Class}");
+    }
+
+    public static void BookingsFiltering(this List<Booking> bookings)
+    {
+        var searchService = new BookingSearchService();
+
+        while (true)
+        {
+            searchService.ShowCriteriaMenu();
+            if (searchService.HandleCriteriaMenuInput())
+            {
+                var filteredBookings = searchService.FilterBookings(bookings);
+
+                if (filteredBookings.Count == 0)
+                {
+                    Console.WriteLine("\nNo bookings matched the selected criteria.");
+                }
+                else
+                {
+                    Console.WriteLine("\nCurrent Bookings:");
+                    for (int i = 0; i < filteredBookings.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {filteredBookings[i].ToDetailedString()}");
+                    }
+                }
+                Console.Write("\nFilter again? (y/n): ");
+                if (Console.ReadLine()?.ToLower() != "y")
+                {
+                    break;
+                }
+            }
+        }
     }
 
     public static void SearchAndBook(this List<Booking> bookings, List<Flight> flights)

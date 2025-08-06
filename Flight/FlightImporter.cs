@@ -1,5 +1,6 @@
-using Airport_Ticket_Booking_System;
 using Airport_Ticket_Booking_System.Enums;
+
+namespace Airport_Ticket_Booking_System.Flights;
 
 public static class FlightImporter
 {

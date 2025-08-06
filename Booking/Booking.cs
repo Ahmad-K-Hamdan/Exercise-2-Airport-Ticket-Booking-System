@@ -1,6 +1,7 @@
 using Airport_Ticket_Booking_System.Enums;
+using Airport_Ticket_Booking_System.Flights;
 
-namespace Airport_Ticket_Booking_System.Booking;
+namespace Airport_Ticket_Booking_System.Bookings;
 
 public class Booking
 {

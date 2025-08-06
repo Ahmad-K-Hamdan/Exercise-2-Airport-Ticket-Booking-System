@@ -1,7 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Airport_Ticket_Booking_System.Enums;
 
-namespace Airport_Ticket_Booking_System;
+namespace Airport_Ticket_Booking_System.Flights;
 
 public class FlightValidator
 {
