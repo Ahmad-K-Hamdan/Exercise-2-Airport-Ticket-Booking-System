@@ -10,14 +10,14 @@ public class BookingSearchService
     public void ShowCriteriaMenu()
     {
         Console.WriteLine("\nSelect filtering criteria:");
-        Console.WriteLine($"1. Flight Number ({Display(UserCriteria[0])})");
-        Console.WriteLine($"2. Max Price ({Display(UserCriteria[1])})");
-        Console.WriteLine($"3. Departure Country ({Display(UserCriteria[2])})");
-        Console.WriteLine($"4. Departure Airport ({Display(UserCriteria[3])})");
-        Console.WriteLine($"5. Destination Country ({Display(UserCriteria[4])})");
-        Console.WriteLine($"6. Destination Airport ({Display(UserCriteria[5])})");
-        Console.WriteLine($"7. Departure Date ({Display(UserCriteria[6])})");
-        Console.WriteLine($"8. Flight Class ({Display(UserCriteria[7])})");
+        Console.WriteLine($"1. Flight Number (Current: {Display(UserCriteria[0])})");
+        Console.WriteLine($"2. Max Price (Current: {Display(UserCriteria[1])})");
+        Console.WriteLine($"3. Departure Country (Current: {Display(UserCriteria[2])})");
+        Console.WriteLine($"4. Departure Airport (Current: {Display(UserCriteria[3])})");
+        Console.WriteLine($"5. Destination Country (Current: {Display(UserCriteria[4])})");
+        Console.WriteLine($"6. Destination Airport (Current: {Display(UserCriteria[5])})");
+        Console.WriteLine($"7. Departure Date (Current: {Display(UserCriteria[6])})");
+        Console.WriteLine($"8. Flight Class (Current: {Display(UserCriteria[7])})");
         Console.WriteLine("9. Confirm & Show Bookings");
         Console.WriteLine("0. Reset filtering criteria");
         Console.Write("Enter your choice: ");
