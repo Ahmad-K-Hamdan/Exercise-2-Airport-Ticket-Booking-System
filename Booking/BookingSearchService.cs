@@ -154,6 +154,6 @@ public class BookingSearchService
     {
         for (int i = 0; i < UserCriteria.Length; i++)
             UserCriteria[i] = null!;
-        Console.WriteLine("All booking criteria have been reset.");
+        Console.WriteLine("\nAll booking criteria have been reset.");
     }
 }

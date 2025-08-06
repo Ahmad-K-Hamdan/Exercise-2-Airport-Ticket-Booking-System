@@ -5,7 +5,7 @@ class Program
 {
     static void Main()
     {
-        var flights = FlightImporter.ImportFlights();
+        var flights = new List<Flight>();
         var bookings = new List<Booking>();
 
         while (true)
@@ -63,10 +63,16 @@ class Program
                 break;
 
             case "2":
+                if (bookings.Count == 0)
+                {
+                    Console.WriteLine("\nThere are no bookings available.");
+                    break;
+                }
                 bookings.BookingsFiltering();
                 break;
 
             case "3":
+                FlightValidator.PrintModelValidationDetails<Flight>();
                 break;
 
             case "0":
@@ -99,42 +105,56 @@ class Program
         switch (choice)
         {
             case "1":
+                if (flights.Count == 0)
+                {
+                    Console.WriteLine("\nThere are no flights available.");
+                    break;
+                }
                 bookings.SearchAndBook(flights);
                 break;
 
             case "2":
+                if (bookings.Count == 0)
+                {
+                    Console.WriteLine("\nYou do not have any bookings.");
+                    break;
+                }
                 bookings.ViewBookings();
                 break;
 
             case "3":
-                Console.Write("\nEnter the ID for the booking you want to modify: ");
-                if (int.TryParse(Console.ReadLine(), out inputID))
+                if (bookings.Count == 0)
                 {
-                    bookings.ModifyBooking(flights, inputID);
+                    Console.WriteLine("\nYou do not have any bookings.");
+                    break;
                 }
-                else
+                Console.Write("\nEnter the ID for the booking you want to modify: ");
+                if (!int.TryParse(Console.ReadLine(), out inputID))
                 {
                     Console.WriteLine("Invalid ID. Please enter a valid booking ID.");
                 }
+                bookings.ModifyBooking(flights, inputID);
                 break;
 
             case "4":
-                Console.Write("\nEnter the ID for the booking you want to cancel: ");
-                if (int.TryParse(Console.ReadLine(), out inputID))
+                if (bookings.Count == 0)
                 {
-                    bookings.CancelBooking(inputID);
+                    Console.WriteLine("\nYou do not have any bookings.");
+                    break;
                 }
-                else
+                Console.Write("\nEnter the ID for the booking you want to cancel: ");
+                if (!int.TryParse(Console.ReadLine(), out inputID))
                 {
                     Console.WriteLine("Invalid ID. Please enter a valid booking ID.");
                 }
+                bookings.CancelBooking(inputID);
                 break;
 
             case "0":
                 return;
 
             default:
-                Console.WriteLine("Invalid option. Please choose a number between 0 and 5.");
+                Console.WriteLine("Invalid option. Please choose a number between 0 and 4.");
                 break;
         }
 

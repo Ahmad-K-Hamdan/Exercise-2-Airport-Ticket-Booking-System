@@ -199,4 +199,49 @@ public class FlightValidator
 
         return errors;
     }
+
+    public static void PrintModelValidationDetails<Flight>()
+    {
+        Console.WriteLine($"\n{typeof(Flight).Name} Model Validation Details:\n");
+
+        var properties = typeof(Flight).GetProperties();
+
+        foreach (var property in properties)
+        {
+            Console.WriteLine($"- {property.Name}:");
+            Console.WriteLine($"    Type: {property.PropertyType.Name}");
+
+            var attributes = property.GetCustomAttributes(true);
+            var hasConstraints = false;
+
+            foreach (var attribute in attributes)
+            {
+                if (attribute is RequiredAttribute)
+                {
+                    Console.WriteLine("    Constraint: Required");
+                    hasConstraints = true;
+                }
+                else if (attribute is RangeAttribute range)
+                {
+                    Console.WriteLine($"    Constraint: Allowed Range({range.Minimum} -> {range.Maximum})");
+                    hasConstraints = true;
+                }
+                else if (attribute is StringLengthAttribute strLen)
+                {
+                    Console.WriteLine($"    Constraint: String Length (Min: {strLen.MinimumLength} -> Max: {strLen.MaximumLength})");
+                    hasConstraints = true;
+                }
+                else if (attribute is RegularExpressionAttribute regex)
+                {
+                    Console.WriteLine($"    Constraint: Must match pattern '{regex.Pattern}'");
+                    hasConstraints = true;
+                }
+            }
+
+            if (!hasConstraints)
+                Console.WriteLine("    Constraint: None");
+
+            Console.WriteLine();
+        }
+    }
 }
