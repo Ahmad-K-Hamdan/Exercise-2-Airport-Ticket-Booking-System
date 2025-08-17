@@ -14,11 +14,6 @@ public static class FlightExtensions
         return flight.Capacity - flight.BookedSeats;
     }
 
-    public static Flight? FindFlightByNumber(this List<Flight> flights, string flightNumber)
-    {
-        return flights.FirstOrDefault(flight => flight.FlightNumber == flightNumber);
-    }
-
     public static void ReserveSeats(this Flight flight, int NumberOfSeats)
     {
         flight.BookedSeats += NumberOfSeats;
@@ -35,13 +30,5 @@ public static class FlightExtensions
             + $"Prices: Economy ${flight.PricePerClass[FlightClass.Economy]}, "
             + $"Business ${flight.PricePerClass[FlightClass.Business]}, "
             + $"First ${flight.PricePerClass[FlightClass.FirstClass]}";
-    }
-
-    public static void PrintAllFlights(this List<Flight> flights)
-    {
-        foreach (var flight in flights)
-        {
-            Console.WriteLine(flight.ToDetailedString());
-        }
     }
 }

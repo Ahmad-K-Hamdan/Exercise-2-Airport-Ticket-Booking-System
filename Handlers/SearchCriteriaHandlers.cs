@@ -1,10 +1,11 @@
+using Airport_Ticket_Booking_System.Enums;
 using Airport_Ticket_Booking_System.Flights;
 
 namespace AirportTicketBookingSystem.Handlers;
 
 public static class SearchInputHandlers
 {
-    public static object HandlePriceInput()
+    public static decimal HandlePriceInput()
     {
         while (true)
         {
@@ -17,7 +18,7 @@ public static class SearchInputHandlers
         }
     }
 
-    public static object HandleDepartureCountryInput()
+    public static string HandleDepartureCountryInput()
     {
         while (true)
         {
@@ -34,7 +35,7 @@ public static class SearchInputHandlers
         }
     }
 
-    public static object HandleDepartureAirportInput()
+    public static string HandleDepartureAirportInput()
     {
         while (true)
         {
@@ -51,7 +52,7 @@ public static class SearchInputHandlers
         }
     }
 
-    public static object HandleDestinationCountryInput()
+    public static string HandleDestinationCountryInput()
     {
         while (true)
         {
@@ -68,7 +69,7 @@ public static class SearchInputHandlers
         }
     }
 
-    public static object HandleDestinationAirportInput()
+    public static string HandleDestinationAirportInput()
     {
         while (true)
         {
@@ -85,7 +86,7 @@ public static class SearchInputHandlers
         }
     }
 
-    public static object HandleDepartureDateInput()
+    public static DateTime HandleDepartureDateInput()
     {
         while (true)
         {
@@ -99,7 +100,7 @@ public static class SearchInputHandlers
         }
     }
 
-    public static object HandleFlightNumberInput()
+    public static string HandleFlightNumberInput()
     {
         while (true)
         {
@@ -113,7 +114,7 @@ public static class SearchInputHandlers
         }
     }
 
-    public static object HandlePassengerNameInput()
+    public static string HandlePassengerNameInput()
     {
         while (true)
         {
@@ -127,15 +128,15 @@ public static class SearchInputHandlers
         }
     }
 
-    public static object HandleFlightClassInput()
+    public static FlightClass HandleFlightClassInput()
     {
         while (true)
         {
-            Console.Write("Enter flight class (e.g., Economy, Business, FirstClass): ");
+            Console.Write("Enter flight class (Economy, Business, FirstClass): ");
             string? input = Console.ReadLine();
 
-            if (!string.IsNullOrWhiteSpace(input))
-                return input.Trim();
+            if (Enum.TryParse<FlightClass>(input, true, out var flightClass))
+                return flightClass;
 
             Console.WriteLine("Flight class cannot be empty.");
         }

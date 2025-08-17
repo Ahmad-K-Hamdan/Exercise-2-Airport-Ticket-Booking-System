@@ -5,8 +5,8 @@ class Program
 {
     static void Main()
     {
-        var flights = new List<Flight>();
-        var bookings = new List<Booking>();
+        var flightService = new FlightService();
+        var bookingService = new BookingService(flightService);
 
         while (true)
         {
@@ -23,11 +23,11 @@ class Program
             switch (choice)
             {
                 case "1":
-                    ShowManagerMenu(flights, bookings);
+                    ShowManagerMenu(bookingService, flightService);
                     break;
 
                 case "2":
-                    ShowPassengerMenu(flights, bookings);
+                    ShowPassengerMenu(bookingService, flightService);
                     break;
 
                 case "0":
@@ -41,11 +41,11 @@ class Program
         }
     }
 
-    static void ShowManagerMenu(List<Flight> flights, List<Booking> bookings)
+    static void ShowManagerMenu(BookingService bookingService, FlightService flightService)
     {
         Console.Clear();
         Console.WriteLine("Manager Menu");
-        Console.WriteLine("1. Import flights from CSV");
+        Console.WriteLine("1. View all flights");
         Console.WriteLine("2. View all bookings");
         Console.WriteLine("3. Display model validation details");
         Console.WriteLine("0. Back to main menu");
@@ -56,19 +56,11 @@ class Program
         switch (choice)
         {
             case "1":
-                var importedFlights = FlightImporter.ImportFlights();
-                flights.Clear();
-                flights.AddRange(importedFlights);
-                Console.WriteLine($"{importedFlights.Count} flights imported successfully.");
+                flightService.PrintAllFlights();
                 break;
 
             case "2":
-                if (bookings.Count == 0)
-                {
-                    Console.WriteLine("\nThere are no bookings available.");
-                    break;
-                }
-                bookings.BookingsFiltering();
+                bookingService.ViewBookings();
                 break;
 
             case "3":
@@ -85,14 +77,14 @@ class Program
 
         Console.WriteLine("\n\nPress any key to return to the managers menu...");
         Console.ReadKey();
-        ShowManagerMenu(flights, bookings);
+        ShowManagerMenu(bookingService, flightService);
     }
 
-    static void ShowPassengerMenu(List<Flight> flights, List<Booking> bookings)
+    static void ShowPassengerMenu(BookingService bookingService, FlightService flightService)
     {
         Console.Clear();
         Console.WriteLine("Passenger Menu");
-        Console.WriteLine("1. Search flights");
+        Console.WriteLine("1. Search flights & book");
         Console.WriteLine("2. View my bookings");
         Console.WriteLine("3. Modify booking");
         Console.WriteLine("4. Cancel booking");
@@ -105,49 +97,42 @@ class Program
         switch (choice)
         {
             case "1":
-                if (flights.Count == 0)
+                var flightSearchService = new FlightSearchService();
+                var allFlights = flightService.GetAllFlights();
+                var filteredFlights = flightSearchService.SearchFlights(allFlights);
+
+                if (filteredFlights.Count > 0)
                 {
-                    Console.WriteLine("\nThere are no flights available.");
-                    break;
+                    bookingService.BookFlightFromSearch(filteredFlights);   
                 }
-                bookings.SearchAndBook(flights);
                 break;
 
             case "2":
-                if (bookings.Count == 0)
+                Console.Write("\nEnter your Passenger ID: ");
+                if (int.TryParse(Console.ReadLine(), out inputID))
                 {
-                    Console.WriteLine("\nYou do not have any bookings.");
+                    bookingService.ViewBookings(inputID);
                     break;
                 }
-                bookings.ViewBookings();
+                Console.WriteLine("Invalid Passenger ID.");
                 break;
 
             case "3":
-                if (bookings.Count == 0)
-                {
-                    Console.WriteLine("\nYou do not have any bookings.");
-                    break;
-                }
                 Console.Write("\nEnter the ID for the booking you want to modify: ");
                 if (!int.TryParse(Console.ReadLine(), out inputID))
                 {
                     Console.WriteLine("Invalid ID. Please enter a valid booking ID.");
                 }
-                bookings.ModifyBooking(flights, inputID);
+                bookingService.ModifyBooking(inputID);
                 break;
 
             case "4":
-                if (bookings.Count == 0)
-                {
-                    Console.WriteLine("\nYou do not have any bookings.");
-                    break;
-                }
                 Console.Write("\nEnter the ID for the booking you want to cancel: ");
                 if (!int.TryParse(Console.ReadLine(), out inputID))
                 {
                     Console.WriteLine("Invalid ID. Please enter a valid booking ID.");
                 }
-                bookings.CancelBooking(inputID);
+                bookingService.CancelBooking(inputID);
                 break;
 
             case "0":
@@ -160,6 +145,6 @@ class Program
 
         Console.Write("\n\nPress any key to return to the passenger menu...");
         Console.ReadKey();
-        ShowPassengerMenu(flights, bookings);
+        ShowPassengerMenu(bookingService, flightService);
     }
 }

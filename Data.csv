@@ -1,6 +1,0 @@
-Flight Number,Departure Country,Departure Airport,Departure DateTime,Destination Country,Destination Airport,Flight Duration,Price Per Class (Economy / Business / FirstClass),Capacity,Booked Seats
-FL123,USA,JFK,8/10/2025 14:00,UK,Heathrow,7:00,400 / 800 / 1500,200,120
-FL456,Germany,FRA,9/1/2025 9:30,Japan,Narita,11:30,500 / 950 / 1800,180,100
-FL789,UAE,DXB,8/25/2025 23:45,India,Delhi,3:20,120 / 300 / 700,150,75
-FL321,Canada,YYZ,8/15/2025 16:15,Mexico,MEX,4:45,220 / 500 / 1000,160,110
-FL654,France,CDG,8/18/2025 6:00,Italy,FCO,2:10,150 / 350 / 900,100,60
