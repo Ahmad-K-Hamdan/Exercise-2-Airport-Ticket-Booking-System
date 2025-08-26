@@ -16,36 +16,28 @@ public static class FlightFactory
         int capacity,
         int bookedSeats
     )
+
     {
-        var errors = FlightValidator.GetValidationErrors(
-            flightNumber,
-            departureCountry,
-            departureAirport,
-            departureDateTime,
-            destinationCountry,
-            destinationAirport,
-            flightDuration,
-            pricePerClass,
-            capacity,
-            bookedSeats
-        );
+        var flight = new Flight(
+                flightNumber,
+                departureCountry,
+                departureAirport,
+                departureDateTime,
+                destinationCountry,
+                destinationAirport,
+                flightDuration,
+                pricePerClass,
+                capacity,
+                bookedSeats
+            );
+
+        var errors = FlightValidator.GetValidationErrors(flight);
 
         if (errors.Any())
         {
             throw new ArgumentException("Flight validation failed: \n" + string.Join("\n", errors));
         }
 
-        return new Flight(
-            flightNumber,
-            departureCountry,
-            departureAirport,
-            departureDateTime,
-            destinationCountry,
-            destinationAirport,
-            flightDuration,
-            pricePerClass,
-            capacity,
-            bookedSeats
-        );
+        return flight;
     }
 }

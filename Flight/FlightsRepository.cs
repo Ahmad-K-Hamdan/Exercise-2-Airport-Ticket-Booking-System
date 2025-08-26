@@ -27,46 +27,50 @@ public static class FlightsRepository
                 var columns = line.Split(',');
                 try
                 {
-                    var priceParts = columns[7].Split('/');
-                    if (priceParts.Length != 3)
+                    var flightNumber = columns[0].Trim();
+                    var departureCountry = columns[1].Trim();
+                    var departureAirport = columns[2].Trim();
+                    var destinationCountry = columns[4].Trim();
+                    var destinationAirport = columns[5].Trim();
+
+                    if (!DateTime.TryParse(columns[3], CultureInfo.InvariantCulture, DateTimeStyles.None, out var departureDateTime))
                     {
-                        Console.WriteLine($"Invalid price format for flight {columns[0]}.");
+                        Console.WriteLine($"Invalid departure date '{columns[3]}' for flight {flightNumber}.");
+                        continue;
+                    }
+
+                    if (!TimeSpan.TryParse(columns[6], out var flightDuration))
+                    {
+                        Console.WriteLine($"Invalid flight duration '{columns[6]}' for flight {flightNumber}.");
+                        continue;
+                    }
+
+                    var priceParts = columns[7].Split('/');
+                    if (priceParts.Length != 3
+                        || !decimal.TryParse(priceParts[0].Trim(), out var economyPrice)
+                        || !decimal.TryParse(priceParts[1].Trim(), out var businessPrice)
+                        || !decimal.TryParse(priceParts[2].Trim(), out var firstClassPrice))
+                    {
+                        Console.WriteLine($"Invalid price format for flight {flightNumber}.");
                         continue;
                     }
 
                     var prices = new Dictionary<FlightClass, decimal>
                     {
-                        { FlightClass.Economy, decimal.Parse(priceParts[0].Trim()) },
-                        { FlightClass.Business, decimal.Parse(priceParts[1].Trim()) },
-                        { FlightClass.FirstClass, decimal.Parse(priceParts[2].Trim()) }
+                        { FlightClass.Economy, economyPrice },
+                        { FlightClass.Business, businessPrice },
+                        { FlightClass.FirstClass, firstClassPrice }
                     };
 
-                    var flightNumber = columns[0];
-                    var departureCountry = columns[1];
-                    var departureAirport = columns[2];
-                    var departureDateTime = DateTime.Parse(columns[3], CultureInfo.InvariantCulture);
-                    var destinationCountry = columns[4];
-                    var destinationAirport = columns[5];
-                    var flightDuration = TimeSpan.Parse(columns[6]);
-                    var capacity = int.Parse(columns[8]);
-                    var bookedSeats = int.Parse(columns[9]);
-
-                    var errors = FlightValidator.GetValidationErrors(
-                        flightNumber,
-                        departureCountry,
-                        departureAirport,
-                        departureDateTime,
-                        destinationCountry,
-                        destinationAirport,
-                        flightDuration,
-                        prices,
-                        capacity,
-                        bookedSeats
-                    );
-
-                    if (errors.Count > 0)
+                    if (!int.TryParse(columns[8], out var capacity))
                     {
-                        Console.WriteLine($"Validation errors for flight {flightNumber}: {string.Join("; ", errors)}");
+                        Console.WriteLine($"Invalid capacity '{columns[8]}' for flight {flightNumber}.");
+                        continue;
+                    }
+
+                    if (!int.TryParse(columns[9], out var bookedSeats))
+                    {
+                        Console.WriteLine($"Invalid booked seats '{columns[9]}' for flight {flightNumber}.");
                         continue;
                     }
 
@@ -82,6 +86,13 @@ public static class FlightsRepository
                         capacity,
                         bookedSeats
                     );
+
+                    var errors = FlightValidator.GetValidationErrors(flight);
+                    if (errors.Count > 0)
+                    {
+                        Console.WriteLine($"Validation errors for flight {flightNumber}: {string.Join("; ", errors)}");
+                        continue;
+                    }
 
                     flights.Add(flight);
                 }

@@ -5,13 +5,11 @@ namespace Airport_Ticket_Booking_System.Bookings;
 
 public class BookingService
 {
-    private readonly List<Booking> _bookings;
     private readonly FlightService _flightService;
 
     public BookingService(FlightService flightService)
     {
         _flightService = flightService;
-        _bookings = BookingsRepository.GetBookings(_flightService.GetAllFlights());
     }
 
     public void BookFlightFromSearch(List<Flight> filteredFlights)
@@ -59,39 +57,43 @@ public class BookingService
         }
 
         var booking = new Booking(selectedFlight, passengerId, flightClass, seatCount);
-        _bookings.Add(booking);
+
+        var bookings = BookingsRepository.GetBookings(_flightService.GetAllFlights());
+        bookings.Add(booking);
         selectedFlight.ReserveSeats(seatCount);
 
-        BookingsRepository.SaveBookings(_bookings);
+        BookingsRepository.SaveBookings(bookings);
         FlightsRepository.SaveFlights(_flightService.GetAllFlights());
         Console.WriteLine($"\nSuccessfully booked {seatCount} seats on flight {selectedFlight.FlightNumber}.");
     }
 
     public void CancelBooking(int bookingId)
     {
-        var booking = FindBookingById(bookingId);
+        var bookings = BookingsRepository.GetBookings(_flightService.GetAllFlights());
+        var booking = bookings.SingleOrDefault(booking => booking.BookingId == bookingId);
         if (booking is null)
         {
             Console.WriteLine($"No booking with ID {bookingId}");
             return;
         }
-        _bookings.Remove(booking!);
+        bookings.Remove(booking!);
         booking.Flight.ReserveSeats(-booking.NumberOfSeats);
         FlightsRepository.SaveFlights(_flightService.GetAllFlights());
-        BookingsRepository.SaveBookings(_bookings);
+        BookingsRepository.SaveBookings(bookings);
         System.Console.WriteLine($"Successfully deleted booking {bookingId}");
     }
 
     public void ModifyBooking(int bookingId)
     {
-        var booking = FindBookingById(bookingId);
+        var bookings = BookingsRepository.GetBookings(_flightService.GetAllFlights());
+        var booking = bookings.SingleOrDefault(booking => booking.BookingId == bookingId);
         if (booking is null)
         {
             Console.WriteLine($"No booking with ID {bookingId}");
             return;
         }
         ChangeBookingInformation(booking);
-        BookingsRepository.SaveBookings(_bookings);
+        BookingsRepository.SaveBookings(bookings);
         FlightsRepository.SaveFlights(_flightService.GetAllFlights());
     }
 
@@ -181,16 +183,16 @@ public class BookingService
 
     public List<Booking> GetAllBookings()
     {
-        return _bookings.ToList();
+        return BookingsRepository.GetBookings(_flightService.GetAllFlights());
     }
 
     public void ViewBookings(int passengerID = 0)
     {
-        List<Booking> bookings = _bookings;
+        var bookings = GetAllBookings();
 
         if (passengerID != 0)
         {
-            bookings = _bookings.Where(b => b.PassengerId.Equals(passengerID)).ToList();
+            bookings = bookings.Where(b => b.PassengerId.Equals(passengerID)).ToList();
         }
 
         if (bookings.Count == 0)
@@ -203,10 +205,5 @@ public class BookingService
         {
             Console.WriteLine(booking.ToDetailedString());
         }
-    }
-
-    private Booking? FindBookingById(int bookingId)
-    {
-        return _bookings.SingleOrDefault(booking => booking.BookingId == bookingId);
     }
 }

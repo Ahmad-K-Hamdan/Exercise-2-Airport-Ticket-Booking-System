@@ -2,33 +2,29 @@ namespace Airport_Ticket_Booking_System.Flights;
 
 public class FlightService
 {
-    private readonly List<Flight> _flights;
-
-    public FlightService()
-    {
-        _flights = FlightsRepository.GetFlights();
-    }
-
     public Flight? FindFlightByNumber(string flightNumber)
     {
-        return _flights.FirstOrDefault(flight => flight.FlightNumber == flightNumber);
+        var flights = FlightsRepository.GetFlights();
+        return flights.FirstOrDefault(f => f.FlightNumber == flightNumber);
     }
 
     public List<Flight> GetAllFlights()
     {
-        return _flights.ToList();
+        return FlightsRepository.GetFlights();
     }
 
     public void PrintAllFlights()
     {
-        if (_flights.Count == 0)
+        var flights = FlightsRepository.GetFlights();
+
+        if (flights.Count == 0)
         {
             Console.WriteLine("\nThere are no flights available.");
             return;
         }
 
-        Console.Write("\nAll available flights:\n");
-        foreach (var flight in _flights)
+        Console.WriteLine("\nAll available flights:\n");
+        foreach (var flight in flights)
         {
             Console.WriteLine(flight.ToDetailedString());
         }

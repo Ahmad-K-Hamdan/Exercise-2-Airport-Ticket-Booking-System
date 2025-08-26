@@ -123,24 +123,13 @@ public class FlightValidator
         return pricePerClass;
     }
 
-    public static List<string> GetValidationErrors(
-        string flightNumber,
-        string departureCountry,
-        string departureAirport,
-        DateTime departureDateTime,
-        string destinationCountry,
-        string destinationAirport,
-        TimeSpan flightDuration,
-        Dictionary<FlightClass, decimal> pricePerClass,
-        int capacity,
-        int bookedSeats
-    )
+    public static List<string> GetValidationErrors(Flight flight)
     {
         var errors = new List<string>();
 
         try
         {
-            ValidateFlightNumber(flightNumber);
+            ValidateFlightNumber(flight.FlightNumber);
         }
         catch (Exception ex)
         {
@@ -149,7 +138,7 @@ public class FlightValidator
 
         try
         {
-            ValidateCountry(departureCountry);
+            ValidateCountry(flight.DepartureCountry);
         }
         catch (Exception ex)
         {
@@ -158,7 +147,7 @@ public class FlightValidator
 
         try
         {
-            ValidateAirport(departureAirport);
+            ValidateAirport(flight.DepartureAirport);
         }
         catch (Exception ex)
         {
@@ -167,7 +156,7 @@ public class FlightValidator
 
         try
         {
-            ValidateDepartureDateTime(departureDateTime);
+            ValidateDepartureDateTime(flight.DepartureDateTime);
         }
         catch (Exception ex)
         {
@@ -176,7 +165,7 @@ public class FlightValidator
 
         try
         {
-            ValidateCountry(destinationCountry);
+            ValidateCountry(flight.DestinationCountry);
         }
         catch (Exception ex)
         {
@@ -185,7 +174,7 @@ public class FlightValidator
 
         try
         {
-            ValidateAirport(destinationAirport);
+            ValidateAirport(flight.DestinationAirport);
         }
         catch (Exception ex)
         {
@@ -194,7 +183,7 @@ public class FlightValidator
 
         try
         {
-            ValidateFlightDuration(flightDuration);
+            ValidateFlightDuration(flight.FlightDuration);
         }
         catch (Exception ex)
         {
@@ -203,7 +192,7 @@ public class FlightValidator
 
         try
         {
-            ValidateCapacity(capacity);
+            ValidateCapacity(flight.Capacity);
         }
         catch (Exception ex)
         {
@@ -212,7 +201,7 @@ public class FlightValidator
 
         try
         {
-            ValidateBookedSeats(bookedSeats, capacity);
+            ValidateBookedSeats(flight.BookedSeats, flight.Capacity);
         }
         catch (Exception ex)
         {
@@ -221,7 +210,7 @@ public class FlightValidator
 
         try
         {
-            ValidatePricePerClass(pricePerClass);
+            ValidatePricePerClass(flight.PricePerClass);
         }
         catch (Exception ex)
         {
