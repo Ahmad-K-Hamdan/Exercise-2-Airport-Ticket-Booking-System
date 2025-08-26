@@ -60,7 +60,9 @@ class Program
                 break;
 
             case "2":
-                bookingService.ViewBookings();
+                var bookingSearchService = new BookingSearchService();
+                var allBookings = bookingService.GetAllBookings();
+                bookingSearchService.SearchBookings(allBookings);
                 break;
 
             case "3":

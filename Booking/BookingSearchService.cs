@@ -10,7 +10,7 @@ public class BookingSearchService
         _criteriaUtilityService = new CriteriaUtilityService(_criteria);
     }
 
-    public List<Booking> SearchBookings(List<Booking> bookings)
+    public void SearchBookings(List<Booking> bookings)
     {
         while (true)
         {
@@ -22,7 +22,7 @@ public class BookingSearchService
             if (filteredBookings.Count == 0)
             {
                 Console.WriteLine("\nThere are no bookings matching your filters.");
-                return new List<Booking>();
+                return;
             }
 
             Console.WriteLine("\nCurrent Bookings:");
@@ -32,7 +32,7 @@ public class BookingSearchService
             }
 
             if (confirmed)
-                return filteredBookings;
+                return;
 
             Console.WriteLine("\nPress any key to continue filtering...");
             Console.ReadKey();

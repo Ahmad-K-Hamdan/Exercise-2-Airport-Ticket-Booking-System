@@ -179,6 +179,11 @@ public class BookingService
         Console.WriteLine("\nBooking updated successfully.");
     }
 
+    public List<Booking> GetAllBookings()
+    {
+        return _bookings.ToList();
+    }
+
     public void ViewBookings(int passengerID = 0)
     {
         List<Booking> bookings = _bookings;
