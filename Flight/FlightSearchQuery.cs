@@ -1,8 +1,6 @@
-using System;
-
 namespace Airport_Ticket_Booking_System.Flights;
 
-public class FlightSearchCriteria
+public class FlightSearchQuery
 {
     public decimal? MaxPrice { get; set; }
     public string? DepartureCountry { get; set; }
