@@ -26,35 +26,48 @@ public static class BookingsRepository
                     continue;
 
                 var columns = line.Split(',');
-                try
+
+                if (!int.TryParse(columns[0], out var bookingId))
                 {
-                    var bookingId = int.Parse(columns[0]);
-                    var flightNumber = columns[1];
-                    var passengerId = int.Parse(columns[2]);
-
-                    if (!Enum.TryParse<FlightClass>(columns[3], true, out var flightClass))
-                    {
-                        Console.WriteLine($"Invalid flight class '{columns[3]}' for booking {bookingId}.");
-                        continue;
-                    }
-
-                    var bookingDate = DateTime.Parse(columns[4], CultureInfo.InvariantCulture);
-                    var numberOfSeats = int.Parse(columns[5]);
-
-                    var flight = flights.FirstOrDefault(f => f.FlightNumber == flightNumber);
-                    if (flight == null)
-                    {
-                        Console.WriteLine($"Flight {flightNumber} not found for booking {bookingId}.");
-                        continue;
-                    }
-
-                    var booking = new Booking(bookingId, flight, passengerId, flightClass, bookingDate, numberOfSeats);
-                    bookings.Add(booking);
+                    Console.WriteLine($"Invalid BookingId: {columns[0]}");
+                    continue;
                 }
-                catch (Exception ex)
+
+                var flightNumber = columns[1];
+
+                if (!int.TryParse(columns[2], out var passengerId))
                 {
-                    Console.WriteLine($"Failed to parse line: {line}\nError: {ex.Message}");
+                    Console.WriteLine($"Invalid PassengerId for booking {bookingId}: {columns[2]}");
+                    continue;
                 }
+
+                if (!Enum.TryParse<FlightClass>(columns[3], true, out var flightClass))
+                {
+                    Console.WriteLine($"Invalid flight class '{columns[3]}' for booking {bookingId}.");
+                    continue;
+                }
+
+                if (!DateTime.TryParse(columns[4], CultureInfo.InvariantCulture, DateTimeStyles.None, out var bookingDate))
+                {
+                    Console.WriteLine($"Invalid booking date '{columns[4]}' for booking {bookingId}.");
+                    continue;
+                }
+
+                if (!int.TryParse(columns[5], out var numberOfSeats))
+                {
+                    Console.WriteLine($"Invalid number of seats '{columns[5]}' for booking {bookingId}.");
+                    continue;
+                }
+
+                var flight = flights.FirstOrDefault(f => f.FlightNumber == flightNumber);
+                if (flight == null)
+                {
+                    Console.WriteLine($"Flight {flightNumber} not found for booking {bookingId}.");
+                    continue;
+                }
+
+                var booking = new Booking(bookingId, flight, passengerId, flightClass, bookingDate, numberOfSeats);
+                bookings.Add(booking);
             }
         }
         catch (Exception ex)
