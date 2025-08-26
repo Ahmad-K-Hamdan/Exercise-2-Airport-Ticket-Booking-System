@@ -103,7 +103,7 @@ class Program
 
                 if (filteredFlights.Count > 0)
                 {
-                    bookingService.BookFlightFromSearch(filteredFlights);   
+                    bookingService.BookFlightFromSearch(filteredFlights);
                 }
                 break;
 

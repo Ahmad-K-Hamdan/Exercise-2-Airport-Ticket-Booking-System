@@ -4,7 +4,7 @@ namespace Airport_Ticket_Booking_System.Bookings;
 
 public class BookingSearchService
 {
-    private BookingSearchCriteria _criteria = new BookingSearchCriteria();
+    private BookingSearchQuery _criteria = new BookingSearchQuery();
 
     public List<Booking> SearchBookings(List<Booking> bookings)
     {
@@ -17,14 +17,7 @@ public class BookingSearchService
 
             if (filteredBookings.Count == 0)
             {
-                Console.Write("\nNo matching bookings. Retry filtering? (y/n): ");
-
-                if (Console.ReadLine()?.ToLower() != "y")
-                {
-                    return new List<Booking>();
-                }
-
-                continue;
+                return new List<Booking>();
             }
 
             Console.WriteLine("\nCurrent Bookings:");
@@ -146,7 +139,7 @@ public class BookingSearchService
                 return true;
 
             case "0":
-                _criteria = new BookingSearchCriteria();
+                _criteria = new BookingSearchQuery();
                 Console.WriteLine("\nAll booking criteria have been reset.");
                 break;
 

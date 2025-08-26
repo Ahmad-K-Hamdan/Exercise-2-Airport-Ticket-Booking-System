@@ -17,14 +17,7 @@ public class FlightSearchService
 
             if (filteredFlights.Count == 0)
             {
-                Console.Write("\nNo matching flights. Retry filtering? (y/n): ");
-
-                if (Console.ReadLine()?.ToLower() != "y")
-                {
-                    return new List<Flight>();
-                }
-
-                continue;
+                return new List<Flight>();
             }
 
             Console.WriteLine("\nAvailable Flights:");

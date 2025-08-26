@@ -2,7 +2,7 @@ using Airport_Ticket_Booking_System.Enums;
 
 namespace Airport_Ticket_Booking_System.Bookings;
 
-public class BookingSearchCriteria
+public class BookingSearchQuery
 {
     public string? FlightNumber { get; set; }
     public decimal? MaxPrice { get; set; }
