@@ -58,15 +58,15 @@ public class Flight
         int bookedSeats
     )
     {
-        FlightNumber = FlightValidator.ValidateFlightNumber(flightNumber);
-        DepartureCountry = FlightValidator.ValidateCountry(departureCountry);
-        DepartureAirport = FlightValidator.ValidateAirport(departureAirport);
-        DepartureDateTime = FlightValidator.ValidateDepartureDateTime(departureDateTime);
-        DestinationCountry = FlightValidator.ValidateCountry(destinationCountry);
-        DestinationAirport = FlightValidator.ValidateAirport(destinationAirport);
-        FlightDuration = FlightValidator.ValidateFlightDuration(flightDuration);
-        Capacity = FlightValidator.ValidateCapacity(capacity);
-        BookedSeats = FlightValidator.ValidateBookedSeats(bookedSeats, capacity);
-        PricePerClass = FlightValidator.ValidatePricePerClass(pricePerClass);
+        FlightNumber = flightNumber;
+        DepartureCountry = departureCountry;
+        DepartureAirport = departureAirport;
+        DepartureDateTime = departureDateTime;
+        DestinationCountry = destinationCountry;
+        DestinationAirport = destinationAirport;
+        FlightDuration = flightDuration;
+        Capacity = capacity;
+        BookedSeats = bookedSeats;
+        PricePerClass = pricePerClass;
     }
 }

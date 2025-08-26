@@ -70,7 +70,7 @@ public static class FlightsRepository
                         continue;
                     }
 
-                    var flight = new Flight(
+                    var flight = FlightFactory.CreateFlight(
                         flightNumber,
                         departureCountry,
                         departureAirport,

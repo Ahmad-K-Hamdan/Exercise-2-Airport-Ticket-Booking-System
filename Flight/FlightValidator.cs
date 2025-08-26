@@ -7,6 +7,36 @@ namespace Airport_Ticket_Booking_System.Flights;
 
 public class FlightValidator
 {
+
+    public static List<string> Validate(
+        string flightNumber,
+        string departureCountry,
+        string departureAirport,
+        DateTime departureDateTime,
+        string destinationCountry,
+        string destinationAirport,
+        TimeSpan flightDuration,
+        Dictionary<FlightClass, decimal> pricePerClass,
+        int capacity,
+        int bookedSeats
+    )
+    {
+        var errors = new List<string>();
+
+        try { ValidateFlightNumber(flightNumber); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidateCountry(departureCountry); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidateAirport(departureAirport); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidateDepartureDateTime(departureDateTime); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidateCountry(destinationCountry); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidateAirport(destinationAirport); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidateFlightDuration(flightDuration); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidateCapacity(capacity); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidateBookedSeats(bookedSeats, capacity); } catch (Exception ex) { errors.Add(ex.Message); }
+        try { ValidatePricePerClass(pricePerClass); } catch (Exception ex) { errors.Add(ex.Message); }
+
+        return errors;
+    }
+
     public static string ValidateFlightNumber(string flightNumber)
     {
         if (string.IsNullOrWhiteSpace(flightNumber))
