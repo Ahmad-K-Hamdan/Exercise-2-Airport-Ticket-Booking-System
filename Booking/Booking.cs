@@ -33,6 +33,6 @@ public class Booking
         BookingDate = bookingDate;
         NumberOfSeats = numberOfSeats;
 
-        _nextBookingId++;
+        _nextBookingId = Math.Max(_nextBookingId, bookingId + 1);
     }
 }
