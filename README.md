@@ -2,7 +2,7 @@
 
 ## Objective
 
-This project is a .NET console application designed to simulate an airport ticket booking system. The system allows passengers to book tickets, search for flights, and manage their bookings, while providing managers with tools to oversee bookings and upload flight data.
+This project is a C# console application designed to simulate an airport ticket booking system. The system allows passengers to book tickets, search for flights, and manage their bookings, while providing managers with tools to oversee bookings and upload flight data.
 
 ---
 
