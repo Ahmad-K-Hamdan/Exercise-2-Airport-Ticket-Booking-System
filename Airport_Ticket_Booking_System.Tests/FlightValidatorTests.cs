@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using Airport_Ticket_Booking_System.Constants;
 using Airport_Ticket_Booking_System.Flights;
+using Airport_Ticket_Booking_System.Enums;
 
 public class FlightValidatorTests
 {
@@ -54,5 +55,75 @@ public class FlightValidatorTests
     {
         var ex = Assert.Throws<ArgumentException>(() => FlightValidator.ValidateBookedSeats(bookedSeats, capacity));
         Assert.Equal(ValidationMessages.BookedSeatsExceed, ex.Message);
+    }
+
+    [Fact]
+    [Trait("Field Validating", "Price Per Class")]
+    public void ValidatePricePerClass_ValidPrices_ReturnsDictionary()
+    {
+        var prices = new Dictionary<FlightClass, decimal>
+        {
+            { FlightClass.Economy, 100 },
+            { FlightClass.Business, 200 },
+            { FlightClass.FirstClass, 300 }
+        };
+        var result = FlightValidator.ValidatePricePerClass(prices);
+        Assert.Equal(prices, result);
+    }
+
+    [Fact]
+    [Trait("Field Validating", "Price Per Class")]
+    public void ValidatePricePerClass_MissingClass_ThrowsArgumentException()
+    {
+        var prices = new Dictionary<FlightClass, decimal>
+        {
+            { FlightClass.Economy, 100 },
+            { FlightClass.Business, 200 }
+            // Missing FirstClass
+        };
+        var ex = Assert.Throws<ArgumentException>(() => FlightValidator.ValidatePricePerClass(prices));
+        Assert.Contains("Missing price", ex.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    [Trait("Field Validating", "Price Per Class")]
+    public void ValidatePricePerClass_NonPositivePrice_ThrowsArgumentException()
+    {
+        var prices = new Dictionary<FlightClass, decimal>
+        {
+            { FlightClass.Economy, 0 },
+            { FlightClass.Business, 200 },
+            { FlightClass.FirstClass, 300 }
+        };
+        var ex = Assert.Throws<ArgumentException>(() => FlightValidator.ValidatePricePerClass(prices));
+        Assert.Contains("cannot be non-positive", ex.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    [Trait("Field Validating", "Price Per Class")]
+    public void ValidatePricePerClass_EconomyNotLowest_ThrowsArgumentException()
+    {
+        var prices = new Dictionary<FlightClass, decimal>
+        {
+            { FlightClass.Economy, 200 },
+            { FlightClass.Business, 150 },
+            { FlightClass.FirstClass, 300 }
+        };
+        var ex = Assert.Throws<ArgumentException>(() => FlightValidator.ValidatePricePerClass(prices));
+        Assert.Equal(ValidationMessages.EconomyLowest, ex.Message);
+    }
+
+    [Fact]
+    [Trait("Field Validating", "Price Per Class")]
+    public void ValidatePricePerClass_FirstClassNotHighest_ThrowsArgumentException()
+    {
+        var prices = new Dictionary<FlightClass, decimal>
+        {
+            { FlightClass.Economy, 100 },
+            { FlightClass.Business, 350 },
+            { FlightClass.FirstClass, 300 }
+        };
+        var ex = Assert.Throws<ArgumentException>(() => FlightValidator.ValidatePricePerClass(prices));
+        Assert.Equal(ValidationMessages.FirstClassHighest, ex.Message);
     }
 }
